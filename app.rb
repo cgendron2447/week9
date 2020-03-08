@@ -44,8 +44,14 @@ get "/events/:id/rsvps/new" do
 end
 
 get "/events/:id/rsvps/create" do
-    puts "params: #{params}"
-
+    puts params 
+    @event = events_table.where(id: params[:id]).to_a[0]
+    #have the form create a hash called params, then map the params into the database
+    rsvps_table.insert(event_id: params["id"], 
+                        going: params["going"],
+                        name: params["name"],
+                        email: params["email"],
+                        comments: params["comments"])
     view "create_rsvp"
 end
 
